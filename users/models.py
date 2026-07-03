@@ -15,10 +15,8 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     profile_photo = models.CharField(max_length=255, null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)  # Long Text
-
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile")
+    bio = models.TextField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")  
 
     def __str__(self):
         return self.first_name

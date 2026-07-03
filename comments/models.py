@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Comment(models.Model):
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    video = models.ForeignKey("videos.Video", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     parent_id = models.SmallIntegerField()
     is_pinned = models.BooleanField(default=False)
