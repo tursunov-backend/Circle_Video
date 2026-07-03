@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+class Comment(models.Model):
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    video = models.ForeignKey("videos.Video", on_delete=models.CASCADE)
+    content = models.TextField()
+    parent_id = models.SmallIntegerField()
+    is_pinned = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_edited = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user} - {self.content[:20]}"
