@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name="comments")
+    video = models.ForeignKey('videos.Video', on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     parent_id = models.SmallIntegerField()
     is_pinned = models.BooleanField(default=False)
@@ -11,4 +11,6 @@ class Comment(models.Model):
     is_edited = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user} - {self.content[:20]}"
+        return self.content[:30]
+    
+
