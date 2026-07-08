@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <!-- Mirrored from circlevideo.azyrustemplates.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 02 Jul 2026 04:47:04 GMT -->
 <head>
     <meta charset="utf-8">
@@ -10,7 +9,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.png">
+    <link rel="icon" href="{% static 'favicon.png' %}">
 
     <title>Circle Video | Home Page</title>
 
@@ -21,10 +20,11 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-circle-video.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- font-family: 'Hind', sans-serif; -->
     <link href='https://fonts.googleapis.com/css?family=Hind:400,300,500,600,700|Hind+Guntur:300,400,500,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body class="light">
@@ -32,17 +32,19 @@
 <div class="container-fluid">
     <div class="row">
         <div class="btn-color-toggle">
-            <img src="images/icon_bulb_light.png" alt="">
+            <img src="{% static 'images/icon_bulb_light.png' %}" alt="">
         </div>
         <div class="navbar-container">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-3 visible-xs">
-                        <a href="#" class="btn-menu-toggle"><i class="cv cvicon-cv-menu"></i></a>
+                        <a href="#" class="btn-menu-toggle">
+                           <i class="fa-solid fa-bars"></i>
+                        </a>
                     </div>
                     <div class="col-lg-1 col-md-12">
                         <a class="navbar-brand" href="index.html">
-                            <img src="images/logo.svg" alt="Project name" class="logo" />
+                            <img src="{% static 'images/logo.svg' %}" alt="Project name" class="logo" />
                             <span>Circle</span>
                         </a>
                     </div>
@@ -77,18 +79,18 @@
                     <div class="col-lg-6 col-sm-8 col-xs-3">
                         <form action="https://circlevideo.azyrustemplates.com/search.html" method="post">
                             <div class="topsearch">
-                                <i class="cv cvicon-cv-cancel topsearch-close"></i>
+                                <i class="fa-solid fa-xmark"></i>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon2"><i class="fa fa-search"></i></span>
                                     <input type="text" class="form-control" placeholder="Search" aria-describedby="sizing-addon2">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="cv cvicon-cv-video-file"></i>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>/
                                         <ul class="dropdown-menu">
-                                            <li><a href="#"><i class="cv cvicon-cv-relevant"></i> Relevant</a></li>
-                                            <li><a href="#"><i class="cv cvicon-cv-calender"></i> Recent</a></li>
-                                            <li><a href="#"><i class="cv cvicon-cv-view-stats"></i> Viewed</a></li>
-                                            <li><a href="#"><i class="cv cvicon-cv-star"></i> Top Rated</a></li>
-                                            <li><a href="#"><i class="cv cvicon-cv-watch-later"></i> Longest</a></li>
+                                            <li><a href="#"><i class="fa-solid fa-arrows-up-to-line"></i> Relevant</a></li>
+                                            <li><a href="#"><i class="fa-regular fa-calendar"></i> Recent</a></li>
+                                            <li><a href="#"><i class="fa-regular fa-chart-bar"></i> Viewed</a></li>
+                                            <li><a href="#"><i class="fa-solid fa-star"></i> Top Rated</a></li>
+                                            <li><a href="#"><i class="fa-regular fa-clock"></i> Longest</a></li>
                                         </ul>
                                     </div><!-- /btn-group -->
                                 </div>
@@ -98,19 +100,25 @@
                     <div class="col-lg-2 col-sm-4 hidden-xs">
                         <div class="d-flex">
                             <div class="avatar pull-left">
-                                <img src="images/avatar.png" alt="avatar" />
+                                <img src="{% static 'images/avatar.png' %}" alt="avatar" />
                                 <span class="status"></span>
                             </div>
                             <div class="selectuser pull-left">
                                 <div class="btn-group pull-right dropdown">
                                     <a class="btn btn-default dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Bailey
+                                        {{ request.user.username}}
                                         <span class="caret"></span>
                                     </a>
+                                    {% if request.user.is_authenticated %}
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a href="login.html">Login</a></li>
-                                        <li><a href="signup.html">Sign up</a></li>
+                                        <li><form method='POST' action="{% url 'users:logout' %}">{% csrf_token%} <button type="submit">Logout</button></form></li>
                                     </ul>
+                                    {% else %}
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a href="{% url 'users:login' %}">Login</a></li>
+                                        <li><a href="{% url 'users:signup' %}">Sign up</a></li>
+                                    </ul>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -119,7 +127,7 @@
                 <div class="hidden-xs">
                     <a href="upload.html">
                         <div class="upload-button">
-                            <i class="cv cvicon-cv-upload-video"></i>
+                            <i class="fa-regular fa-cloud"></i>
                         </div>
                     </a>
                 </div>
@@ -133,36 +141,36 @@
     <div class="mobile-menu-head">
         <a href="#" class="mobile-menu-close"></a>
         <a class="navbar-brand" href="index.html">
-            <img src="images/logo.svg" alt="Project name" class="logo" />
+            <img src="{% static 'images/logo.svg' %}" alt="Project name" class="logo" />
             <span>Circle</span>
         </a>
         <div class="mobile-menu-btn-color">
-            <img src="images/icon_bulb_light.png" alt="">
+            <img src="{% static 'images/icon_bulb_light.png' %}" alt="">
         </div>
     </div>
     <div class="mobile-menu-content">
         <div class="mobile-menu-user">
             <div class="mobile-menu-user-img">
-                <img src="images/ava11.png" alt="">
+                <img src="{% static 'images/ava11.png' %}" alt="">
             </div>
             <p>Bailey Fry </p>
             <span class="caret"></span>
         </div>
         <a href="#" class="btn mobile-menu-upload">
-            <i class="cv cvicon-cv-upload-video"></i>
+            <i class="fa-regular fa-cloud"></i>
             <span>Upload Video</span>
         </a>
         <div class="mobile-menu-list">
             <ul>
                 <li>
                     <a href="#">
-                        <i class="cv cvicon-cv-play-circle"></i>
+                        <i class="fa-regular fa-circle-play"></i>
                         <p>Popular Videos</p>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="cv cvicon-cv-playlist"></i>
+                        <i class="fa-solid fa-shuffle"></i>
                         <p>Browse Categories</p>
                         <span class="caret"></span>
                     </a>
@@ -185,8 +193,8 @@
                                 <li><a href="categories.html">Browse Categories Page</a></li>
                                 <li><a href="categories_side_menu.html">Browse Categories Side Menu Page</a></li>
                                 <li><a href="subscription.html">Subscription Page</a></li>
-                                <li><a href="login.html">Login Page</a></li>
-                                <li><a href="signup.html">Signup Page</a></li>
+                                <li><a href="{% url 'users:login' %}">Login Page</a></li>
+                                <li><a href="{% url 'users:signup' %}">Signup Page</a></li>
                             </ul>
                         </li>
                         <li><a href="categories.html">Categories</a></li>
@@ -195,19 +203,19 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="cv cvicon-cv-liked"></i>
+                        <i class="fa-regular fa-heart"></i>
                         <p>Liked Videos</p>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="cv cvicon-cv-history"></i>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
                         <p>History</p>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="cv cvicon-cv-purchased"></i>
+                        <i class="fa-solid fa-money-bill"></i>
                         <p>Purchased Videos</p>
                     </a>
                 </li>
@@ -230,25 +238,19 @@
                     </div>
                     <div class="col-lg-3  col-sm-10 col-xs-12">
                         <div class="h-icons">
-                            <a href="#"><i class="cv cvicon-cv-liked" data-toggle="tooltip" data-placement="top" title="Liked Videos"></i></a>
-                            <a href="#"><i class="cv cvicon-cv-watch-later" data-toggle="tooltip" data-placement="top" title="Watch Later"></i></a>
-                            <a href="#"><i class="cv cvicon-cv-play-circle" data-toggle="tooltip" data-placement="top" title="Saved Playlist"></i></a>
-                            <a href="#"><i class="cv cvicon-cv-purchased" data-toggle="tooltip" data-placement="top" title="Purchased Videos"></i></a>
-                            <a href="#"><i class="cv cvicon-cv-history" data-toggle="tooltip" data-placement="top" title="History"></i></a>
+                            <a href="#"><i class="fa-regular fa-heart" data-toggle="tooltip" data-placement="top" title="Liked Videos"></i></a>
+                            <a href="#"><i class="fa-regular fa-clock" data-toggle="tooltip" data-placement="top" title="Watch Later"></i></a>
+                            <a href="#"><i class="fa-regular fa-circle-play" data-toggle="tooltip" data-placement="top" title="Saved Playlist"></i></a>
+                            <a href="#"><i class="fa-solid fa-money-bill" data-toggle="tooltip" data-placement="top" title="Purchased Videos"></i></a>
+                            <a href="#"><i class="fa-solid fa-clock-rotate-left" data-toggle="tooltip" data-placement="top" title="History"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-sm-10 hidden-xs">
                         <div class="h-resume">
                             <div class="play-icon">
-                                <a href="#"><i class="cv cvicon-cv-play"></i></a>
+                                <a href="#"><i class="fa-regular fa-circle-play"></i></a>
                             </div>
                             Resume:  <span class="color-default">Daredevil Season 2 : Episode 6 </span>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-2 hidden-xs">
-                        <div class="h-grid">
-                            <a href="#"><i class="cv cvicon-cv-grid-view"></i></a>
-                            <a href="#"><i class="cv cvicon-cv-list-view"></i></a>
                         </div>
                     </div>
                 </div>
@@ -257,6 +259,8 @@
     </div>
 </div>
 <!-- /goto -->
+
+{% block content %}  {% endblock content %}
 
 <!-- footer -->
 <footer>
@@ -267,7 +271,7 @@
                     <div class="col-xl-1 col-lg-1 col-md-12 footer-logo">
                         <!--<a class="navbar-brand" href="index.html"><img src="images/logo.svg" alt="Project name" class="logo" /></a>-->
                         <a class="navbar-brand" href="index.html">
-                            <img src="images/logo.svg" alt="Project name" class="logo" />
+                            <img src="{% static 'images/logo.svg' %}" alt="Project name" class="logo" />
                             <span>Circle</span>
                         </a>
                     </div>
@@ -292,27 +296,11 @@
                     </div>
                     <div class="col-xl-3 col-lg-4 ml-auto col-xs-12">
                         <div class="f-last-line">
-                            <div class="f-icon pull-left">
-                                <a href="#"><i class="fa fa-facebook-square"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                            <div class="f-icon d-flex">
+                                <a href="#"><i class="fa-brands fa-facebook-square"></i></a>
+                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="#"><i class="fa-brands fa-google-plus"></i></a>
                             </div>
-                            <div class="f-lang pull-right">
-                                <!-- Small button group -->
-                                <div class="btn-group dropup pull-right">
-                                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Language <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="cv cvicon-cv-relevant"></i> Relevant</a></li>
-                                        <li><a href="#"><i class="cv cvicon-cv-calender"></i> Recent</a></li>
-                                        <li><a href="#"><i class="cv cvicon-cv-view-stats"></i> Viewed</a></li>
-                                        <li><a href="#"><i class="cv cvicon-cv-star"></i> Top Rated</a></li>
-                                        <li><a href="#"><i class="cv cvicon-cv-watch-later"></i> Longest</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
                         </div>
                         <div class="delimiter visible-xs"></div>
                     </div>
@@ -328,12 +316,12 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/jquery-migrate-1.4.1.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.js' %}"></script>
-<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/jquery-migrate-1.4.1.min.js" %}"></script>
+<script src="{% static "bootstrap/js/popper.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "bootstrap/js/popper.js" %}"></script>
+<script src="{% static "js/custom.js" %}"></script>
 
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us"
+{% load static %}
     prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
 
 <head>
@@ -33,10 +34,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>This Page Does Not Exist</title>
     <meta name="description" content="Oops, looks like the page is lost.">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link href="{% static 'css/dm-sans.css' %}"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,600,600i,700,700i,800,800i"
+    <link href="{% static 'css/roboto.css' %}"
         rel="stylesheet">
 
     <script type="text/javascript" async=""
